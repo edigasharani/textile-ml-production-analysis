@@ -12,11 +12,13 @@ This project applies machine learning to textile production data for:
 https://www.kaggle.com/datasets/zara2099/textile-engineering-production-dataset
 
 3. Structure
-- Notebooks:7 research question notebooks
-- results/tables: CSV outputs
-- results/figures: PDF outputs
+- Go to Kaggle and open a new notebook
+- Click Add Data
+- Add the Textile Engineering Production Dataset
+- Attach the dataset
+- Upload the notebooks from this repository
+- Run all cells in each notebook
 
-
-4. Libraries
+5. Libraries:
 pandas, numpy, matplotlib, scikit-learn, xgboost
 
