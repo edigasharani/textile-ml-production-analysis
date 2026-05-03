@@ -1,0 +1,14 @@
+summary = df.describe()
+print("\n=== SUMMARY STATISTICS ===")
+print(summary)
+
+summary.to_csv("RQ1_table.csv")
+
+import seaborn as sns
+
+plt.figure(figsize=(10,6))
+sns.heatmap(df.corr(), annot=True)
+plt.title("RQ1: Correlation Heatmap")
+
+plt.savefig("RQ1_figure.pdf")
+plt.show()

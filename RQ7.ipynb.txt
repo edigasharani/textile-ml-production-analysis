@@ -1,0 +1,54 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
+from xgboost import XGBClassifier
+
+
+df = pd.read_csv('/kaggle/input/datasets/zara2099/textile-engineering-production-dataset/textile_engineering_dataset.csv')
+df = df.dropna()
+
+
+target = 'alert_triggered' 
+
+y = df[target]
+X = df.drop(columns=[target])
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = XGBClassifier(eval_metric='logloss')
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+table = pd.DataFrame({
+    'Metric':['Accuracy','Precision','Recall','F1','ROC_AUC'],
+    'Value':[
+        accuracy_score(y_test,y_pred),
+        precision_score(y_test,y_pred),
+        recall_score(y_test,y_pred),
+        f1_score(y_test,y_pred),
+        roc_auc_score(y_test, model.predict_proba(X_test)[:,1])
+    ]
+})
+
+print
+print(table)
+
+table.to_csv("result_table.csv", index=False)
+
+fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_test)[:,1])
+
+plt.figure()
+plt.plot(fpr, tpr)
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.grid()
+plt.savefig("result_figure.pdf")
+plt.show()
+
+import os
